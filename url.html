@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VirusTotal URL Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            position: relative;
+        }
+        .container {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 60%;
+        }
+        h2 {
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+        textarea {
+            width: 80%;
+            height: 150px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 20px;
+            resize: none;
+            background-color: #f9f9f9;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #output {
+            background-color: #e8f5e9;
+        }
+        .note {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 10px;
+            font-size: 14px;
+        }
+        .note a {
+            color: white;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>VirusTotal URL Generator</h2>
+        <p style="color: #333;">Paste your subdomains list here (one domain per line):</p>
+        <textarea id="domains" placeholder='Example: www70.chatgpt.com\nbeta.chatgpt.com\n...'></textarea>
+        <br>
+        <button onclick="generateUrls()">Generate VirusTotal URLs</button>
+
+        <h3 style="color: #333;">Generated URLs:</h3>
+        <textarea id="output" placeholder="Generated URLs will appear here..."></textarea>
+    </div>
+
+    <div class="note">
+         <a href="https://x.com/enterlectury" target="_blank">Enterlectury🐱‍🏍</a>.<br>
+    </div>
+
+    <script>
+        function generateUrls() {
+            // Get the subdomains list from the textarea
+            let domainText = document.getElementById('domains').value;
+
+            // Split input by new line, trim each domain and remove unnecessary characters
+            let domains = domainText.split('\n').map(domain => domain.trim().replace(/["',]/g, '')).filter(domain => domain);
+
+            if (!domains.length) {
+                alert("No valid domains found. Please check your input.");
+                return;
+            }
+
+            // VirusTotal API key (replace with your own)
+            const apiKey = 'b0c92c80553bf2e87df7e8259625f5932ed1ae06ee92e1b1c9ec7d096849b518';
+
+            // Clear previous output
+            let outputTextArea = document.getElementById('output');
+            outputTextArea.value = '';
+
+            // Generate URLs and display them in the textarea
+            let urls = domains.map(domain => `https://www.virustotal.com/vtapi/v2/domain/report?apikey=${apiKey}&domain=${domain}`).join('\n');
+            outputTextArea.value = urls;
+        }
+    </script>
+</body>
+</html>
